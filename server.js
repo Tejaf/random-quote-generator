@@ -29,17 +29,28 @@ const options = {
         
         var $ = cheerio.load(body);
 
-        $(".block-quote > a").each(function() {
-            var link = $(this);
-            var txt = link.text();
-            var href = link.attr("href");
-
-                       
-            fs.appendFile("quotes.txt", txt, function(err) {
+        $(".block-quote > a, .masonry-quote > a").each(function() {
+            let link = $(this);
+            let txt = link.text();
+            txt = txt.trim().split('\n').join('') + '\n'
+            let href = link.attr("href");
+            let reg = /(\w+)\d/g
+            let matchAuthor = href.match(reg)[0].split('_').slice(0,-1)
+    
+           
+            matchAuthor = matchAuthor.map(e => e.length===1 ? e.toUpperCase()+'.' 
+                                                            : String(e.charAt(0)).toUpperCase() + e.slice(1))
+                                                            .join(' ') + '\n'
+            fs.appendFile("quote.txt", txt, function(err) {
+                if (err) throw err;
+                console.log('successfully written texts');
+            });
+            fs.appendFile("author.txt", matchAuthor, function(err) {
                 if (err) throw err;
                 console.log('successfully written texts');
             });
         })
+
       })
   });
 

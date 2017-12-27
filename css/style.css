@@ -45,3 +45,17 @@ button {
     cursor: pointer;
 }
 
+#author {
+    color: #EFC800
+}
+
+#author::before {
+    content: '~';
+    padding-right: 5px;
+}
+
+#author::after {
+    content: '~';
+    padding-left: 5px;
+}
+
